@@ -142,10 +142,12 @@
           </li>
           
         </ul>
+        {% if request.user == niokr_projects.user %}
         <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" style="float:left;" data-bs-target="#staticBackdrop">
           Удалить
         </button>
         <a class="btn btn-primary" href="{% url 'niokr_project_update_url' niokr_projects.pk %}" style="float: right;">Изменить</a>
+        {% endif %}
       </div>
     </div>
     {% if niokr_projects.previous %}

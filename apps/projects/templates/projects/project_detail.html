@@ -122,10 +122,12 @@
             <small class="text-muted flex-grow-1">Рейтинг</small><span class="fa fa-star checked"></span><span id="rating-t">{{ project.rating }}</span>
           </li>
         </ul>
+        {% if request.user == project.user %}
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float: left;" id="delete">
           Удалить
         </button>
         <a class="btn btn-primary" href="{% url 'project_update_url' project.pk %}" style="float: right;">Изменить</a>
+        {% endif %}
       </div>
     </div>
     {% if project.previous %}
