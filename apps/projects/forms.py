@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import CheckboxSelectMultiple
+
 
 from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria
 
@@ -43,6 +45,7 @@ class CriteriaForm(forms.ModelForm):
 
 
 class NiokrProjectCreateForm(forms.ModelForm):
+
     class Meta:
         model = NiokrProject
         fields = (
@@ -64,7 +67,8 @@ class NiokrProjectCreateForm(forms.ModelForm):
             "data_project_start": forms.DateInput(
                 format=("%d-%m-%Y"),
                 attrs={"placeholder": "Выберите дату"},
-            )
+            ),
+            "team": CheckboxSelectMultiple()
         }
 
     def __init__(self, user, *args, **kwargs):
@@ -75,8 +79,19 @@ class NiokrProjectCreateForm(forms.ModelForm):
         self.fields["team"].queryset = NiokrUser.objects.filter(
             user=user, is_responsible=False
         )
-        for field in self.fields:
-            self.fields[field].widget.attrs["class"] = "form-control"
+        self.fields['theme'].widget.attrs["class"] = "form-control"
+        self.fields['site'].widget.attrs["class"] = "form-control"
+        self.fields['data_project_start'].widget.attrs["class"] = "form-control"
+        self.fields['base_organisation'].widget.attrs["class"] = "form-control"
+        self.fields['science_novelty'].widget.attrs["class"] = "form-control"
+        self.fields['commercial_result'].widget.attrs["class"] = "form-control"
+        self.fields['equipment'].widget.attrs["class"] = "form-control"
+        self.fields['grants'].widget.attrs["class"] = "form-control"
+        self.fields['patents'].widget.attrs["class"] = "form-control"
+        self.fields['cover'].widget.attrs["class"] = "form-control"
+        self.fields['annotation'].widget.attrs["class"] = "form-control"
+        self.fields['responsible'].widget.attrs["class"] = "form-control"
+
 
 
 class NiokrProjectUpdateForm(forms.ModelForm):
@@ -97,6 +112,9 @@ class NiokrProjectUpdateForm(forms.ModelForm):
             "responsible",
             "team",
         )
+        widgets = {
+            "team": forms.CheckboxSelectMultiple()
+        }
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -106,8 +124,18 @@ class NiokrProjectUpdateForm(forms.ModelForm):
         self.fields["team"].queryset = NiokrUser.objects.filter(
             user=user, is_responsible=False
         )
-        for field in self.fields:
-            self.fields[field].widget.attrs["class"] = "form-control"
+        self.fields['theme'].widget.attrs["class"] = "form-control"
+        self.fields['site'].widget.attrs["class"] = "form-control"
+        self.fields['data_project_start'].widget.attrs["class"] = "form-control"
+        self.fields['base_organisation'].widget.attrs["class"] = "form-control"
+        self.fields['science_novelty'].widget.attrs["class"] = "form-control"
+        self.fields['commercial_result'].widget.attrs["class"] = "form-control"
+        self.fields['equipment'].widget.attrs["class"] = "form-control"
+        self.fields['grants'].widget.attrs["class"] = "form-control"
+        self.fields['patents'].widget.attrs["class"] = "form-control"
+        self.fields['cover'].widget.attrs["class"] = "form-control"
+        self.fields['annotation'].widget.attrs["class"] = "form-control"
+        self.fields['responsible'].widget.attrs["class"] = "form-control"
 
 
 class NiokrCriteriaForm(forms.ModelForm):
