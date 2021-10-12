@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from django.shortcuts import redirect
 
 import requests
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -190,6 +191,11 @@ def add_responsible(request):
             project.save()
         return JsonResponse({"code": 200})
 
+def add_umnik(request):
+    pass
+
+def delete_umnik(request):
+    pass
 
 class NiokrProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок всех НИОКР"""
