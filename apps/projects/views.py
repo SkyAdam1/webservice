@@ -57,6 +57,21 @@ class UserProjectsOutputView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Project.objects.filter(user=self.request.user)
 
+class UmnikProjectsOutputView(LoginRequiredMixin, ListView):
+    """cписок своих проектов в Умнике"""
+
+    model = Project
+    template_name = "projects/projects_output.html"
+    context_object_name = "projects"
+    paginate_by = 15
+
+    def get_context_data(self, **kwargs):
+        kwargs["users"] = CustomUser.objects.filter()
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return Project.objects.filter(umnik=self.request.user)
+
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     """создание проекта"""

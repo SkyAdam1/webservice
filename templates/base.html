@@ -56,6 +56,10 @@
           <i class="fa fa-plus-square" aria-hidden="true"></i> Добавить НИОКР
         </a>
         <hr style="margin: 0%;">
+        <a href="{% url 'umnik_projects_list_url' %}">
+          <i class="fa fa-graduation-cap" aria-hidden="true"></i> УМНИК
+        </a>
+        <hr style="margin: 0%;">
         {% if request.user.is_staff %}
           <a href="{% url 'experts' %}">
             <i class="fa fa-flask" aria-hidden="true"></i> Заявки экспертов

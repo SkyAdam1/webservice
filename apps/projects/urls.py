@@ -22,6 +22,7 @@ from .views import (
     ProjectViewSet,
     UserNiokrProjectsOutputView,
     UserProjectsOutputView,
+    UmnikProjectsOutputView,
     NIOKRViewSet,
     NIOKRCriteriaViewSet,
     add_responsible,
@@ -60,6 +61,11 @@ urlpatterns = [
         "my_projects/",
         UserProjectsOutputView.as_view(),
         name="user_projects_list_url",
+    ),
+    path(
+        "my_umnik/",
+        UmnikProjectsOutputView.as_view(),
+        name="umnik_projects_list_url",
     ),
     path(
         "project/<int:pk>/",
