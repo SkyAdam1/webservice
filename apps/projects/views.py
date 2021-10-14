@@ -14,7 +14,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.http.response import HttpResponse
 from apps.users.models import CustomUser
 
 from . import forms
@@ -191,11 +193,25 @@ def add_responsible(request):
             project.save()
         return JsonResponse({"code": 200})
 
-def add_umnik(request):
-    pass
 
-def delete_umnik(request):
-    pass
+def add_umnik(request, pk):
+
+    project = get_object_or_404(Project, pk=pk)
+    project.umnik = request.user
+    project.save()
+    return HttpResponseRedirect(
+        reverse_lazy("project_detail_url", kwargs={"pk": project.pk})
+    )
+
+
+def delete_umnik(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    project.umnik = None
+    project.save()
+    return HttpResponseRedirect(
+        reverse_lazy("project_detail_url", kwargs={"pk": project.pk})
+    )
+
 
 class NiokrProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок всех НИОКР"""

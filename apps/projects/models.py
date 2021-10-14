@@ -46,7 +46,7 @@ class Project(models.Model):
         blank=True,
         null=True,
     )
-    umnik =  ForeignKey(
+    umnik = ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=CASCADE,
         related_name="umnik",
