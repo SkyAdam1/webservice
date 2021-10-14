@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from django.shortcuts import redirect
 
 import requests
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -13,7 +14,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.http.response import HttpResponse
 from apps.users.models import CustomUser
 
 from . import forms
@@ -53,6 +56,21 @@ class UserProjectsOutputView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Project.objects.filter(user=self.request.user)
+
+class UmnikProjectsOutputView(LoginRequiredMixin, ListView):
+    """cписок своих проектов в Умнике"""
+
+    model = Project
+    template_name = "projects/projects_output.html"
+    context_object_name = "projects"
+    paginate_by = 15
+
+    def get_context_data(self, **kwargs):
+        kwargs["users"] = CustomUser.objects.filter()
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return Project.objects.filter(umnik=self.request.user)
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -189,6 +207,25 @@ def add_responsible(request):
             project.responsible = responsible
             project.save()
         return JsonResponse({"code": 200})
+
+
+def add_umnik(request, pk):
+
+    project = get_object_or_404(Project, pk=pk)
+    project.umnik = request.user
+    project.save()
+    return HttpResponseRedirect(
+        reverse_lazy("project_detail_url", kwargs={"pk": project.pk})
+    )
+
+
+def delete_umnik(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    project.umnik = None
+    project.save()
+    return HttpResponseRedirect(
+        reverse_lazy("project_detail_url", kwargs={"pk": project.pk})
+    )
 
 
 class NiokrProjectsOutputView(LoginRequiredMixin, ListView):

@@ -22,11 +22,14 @@ from .views import (
     ProjectViewSet,
     UserNiokrProjectsOutputView,
     UserProjectsOutputView,
+    UmnikProjectsOutputView,
     NIOKRViewSet,
     NIOKRCriteriaViewSet,
     add_responsible,
     change_criteria,
     change_niokr_criteria,
+    add_umnik,
+    delete_umnik,
 )
 
 router = DefaultRouter()
@@ -58,6 +61,11 @@ urlpatterns = [
         "my_projects/",
         UserProjectsOutputView.as_view(),
         name="user_projects_list_url",
+    ),
+    path(
+        "my_umnik/",
+        UmnikProjectsOutputView.as_view(),
+        name="umnik_projects_list_url",
     ),
     path(
         "project/<int:pk>/",
@@ -114,6 +122,8 @@ urlpatterns = [
         name="niokr_project_output_pk_url",
     ),
     path("change_niokr_criteria/", change_niokr_criteria, name="change_niokr_criteria"),
+    path("add_umnik/<int:pk>/", add_umnik, name="add_umnik"),
+    path("delete_umnik/<int:pk>/", delete_umnik, name="delete_umnik"),
     path("api/niokr_project-dates/", NiokrProjectsDatesView.as_view()),
     re_path("^", include(router.urls)),
 ]

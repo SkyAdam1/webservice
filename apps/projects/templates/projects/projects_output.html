@@ -54,7 +54,11 @@
             <div
               class="card-custom-img"
               style="{% if item.cover %}background-image: url({{item.cover|get_image}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
-            ></div>
+            >
+            {% if item.umnik %}     
+              <img src="/static/images/1.png" style="margin-left: 20%;"  >
+            {% endif %}
+          </div>
             <div class="card-custom-avatar">
               <img
                 class="img-fluid"
