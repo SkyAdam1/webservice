@@ -128,12 +128,12 @@
         <a class="btn btn-primary" href="{% url 'project_update_url' project.pk %}" style="float: right;">Изменить</a>
         {% endif %}
         {% if not project.umnik %}
-            <a class="btn btn-primary mt-3" href="{% url 'add_umnik' project.pk %}" style="float: right;">Добавить в умника</a>
+            <a class="btn btn-primary mt-3" href="{% url 'add_umnik' project.pk %}" style="float: right;">Добавить в УМНИК</a>
         {% elif request.user == project.umnik %}
-            <p style="margin-top: 30%;">ВЫ заняли данный проект</p>
+            <p style="margin-top: 30%;">Вы заняли данный проект</p>
             <a class="btn btn-danger mt-3" href="{% url 'delete_umnik' project.pk %}" style="float: right;">Отменить бронь</a>
         {% else %}
-            <p class="card-text"> Данный проект занят пользователем {{ project.umnik }}</p>
+            <p style="margin-top: 30%;"> Данный проект занят пользователем {{ project.umnik }}</p>
         {% endif %}
       </div>
     </div>
