@@ -134,5 +134,5 @@ def create_code(request):
         code = "".join(choices(ascii_letters + digits, k=randint(50, 99)))
         InviteCode.objects.create(code=code).save()
         return JsonResponse(
-            {"link": f"{request.META['HTTP_HOST']}/registration?code={code}"}
+            {"link": "ideabase.ru/registration?code={code}"}
         )
