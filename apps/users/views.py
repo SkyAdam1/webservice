@@ -134,5 +134,5 @@ def create_code(request):
         code = "".join(choices(ascii_letters + digits, k=randint(50, 99)))
         InviteCode.objects.create(code=code).save()
         return JsonResponse(
-            {"link": f"37.173.210.219/registration?code={code}"}
+            {"link": f"31.173.210.219/registration?code={code}"}
         )
