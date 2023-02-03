@@ -16,4 +16,11 @@
 
 	<button type="submit" class="btn mt-3" style="background-color: rgb(170, 170, 255);">Изменить</button>
 </form>
+
+<div style="display: flex; justify-content: center;">
+    <a href="{% url 'download_excel_url' %}" class="btn mt-3" style="background-color: rgb(170, 170, 255);">
+        <i class="fa fa-download" aria-hidden="true"></i> Выгрузить excel
+    </a>
+</div>
+
 {% endblock %}

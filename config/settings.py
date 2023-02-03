@@ -52,6 +52,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "apps.users.context_processors.experts",
+                "apps.projects.context_processors.projects_count",
+                "apps.projects.context_processors.user_projects_count",
             ],
         },
     },

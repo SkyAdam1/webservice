@@ -2,10 +2,12 @@ import json
 from datetime import datetime
 from django.shortcuts import redirect
 
+import xlwt
 import requests
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
@@ -16,7 +18,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseRedirect
-from django.http.response import HttpResponse
+from django.http import HttpResponse
 from apps.users.models import CustomUser
 
 from . import forms
@@ -40,6 +42,41 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         kwargs["users"] = CustomUser.objects.filter()
         return super().get_context_data(**kwargs)
+
+
+class ProjectsExcelDownload(LoginRequiredMixin, View):
+    """выгрузка всех проектов в excel"""
+
+    def get(self, request):
+        projects = Project.objects.all().values_list('user__username', 'name', 'site',
+                                                     'description', 'note',)
+        
+        workbook = xlwt.Workbook(encoding='utf-8')
+        sheet = workbook.add_sheet('First Sheet')
+
+        # Sheet header, first row
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = ['Автор', 'Наименование', 'Источник', 'Описание', 'Примечание']
+        for col_num in range(len(columns)):
+            sheet.write(row_num, col_num, columns[col_num], font_style)
+
+        # Sheet body, remaining rows
+        font_style = xlwt.XFStyle()
+
+        for project in projects:
+            row_num += 1
+            for col_num in range(len(project)):
+                sheet.write(row_num, col_num, project[col_num], font_style)
+
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="Проекты СС.xls"'
+
+        workbook.save(response)
+        return response
 
 
 class UserProjectsOutputView(LoginRequiredMixin, ListView):

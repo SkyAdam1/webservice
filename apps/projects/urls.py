@@ -25,6 +25,7 @@ from .views import (
     UmnikProjectsOutputView,
     NIOKRViewSet,
     NIOKRCriteriaViewSet,
+    ProjectsExcelDownload,
     add_responsible,
     change_criteria,
     change_niokr_criteria,
@@ -55,6 +56,11 @@ urlpatterns = [
         "project_update/<int:pk>",
         ProjectUpdateView.as_view(),
         name="project_update_url",
+    ),
+    path(
+        "download_projects/",
+        ProjectsExcelDownload.as_view(),
+        name="download_excel_url",
     ),
     path("projects/create/", ProjectCreateView.as_view(), name="project_create_url"),
     path(

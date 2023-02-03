@@ -37,10 +37,10 @@
       <nav class="menu-list">
         <a id="main-title" href="#" style="font-size:200%;margin-top: -5em;padding-bottom: 4em;">ВИТРИНА TRL</a>
         <a href="{% url 'projects_list_url' %}">
-          <i class="fa fa-globe" aria-hidden="true"></i> Все проекты
+          <i class="fa fa-globe" aria-hidden="true"></i> Все проекты ({{ projects_count }})
         </a>
         <a href="{% url 'user_projects_list_url' %}">
-          <i class="fa fa-home" aria-hidden="true"></i> Мои проекты
+          <i class="fa fa-home" aria-hidden="true"></i> Мои проекты ({{ user_projects_count }})
         </a>
         <a href="{% url 'project_create_url' %}">
           <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
