@@ -218,32 +218,30 @@ class ProjectsDatesView(APIView):
 
 
 def change_criteria(request):
-    if request.is_ajax():
-        field = request.GET.get("field")
-        user = CustomUser.objects.get(pk=request.GET.get("user"))
-        if user.is_expert:
-            criteria = Criteria.objects.get(app=request.GET.get("project"), expert=user)
-            criteria.__dict__[field] = not criteria.__dict__[field]
-            criteria.save(update_fields=[field])
-            project = Project.objects.get(pk=request.GET.get("project"))
-            return JsonResponse(
-                {"count": project.__dict__[field], "rating": project.rating}
-            )
+    field = request.GET.get("field")
+    user = CustomUser.objects.get(pk=request.GET.get("user"))
+    if user.is_expert:
+        criteria = Criteria.objects.get(app=request.GET.get("project"), expert=user)
+        criteria.__dict__[field] = not criteria.__dict__[field]
+        criteria.save(update_fields=[field])
+        project = Project.objects.get(pk=request.GET.get("project"))
+        return JsonResponse(
+            {"count": project.__dict__[field], "rating": project.rating}
+        )
 
 
 def add_responsible(request):
-    if request.is_ajax():
-        user = CustomUser.objects.get(pk=request.GET.get("user"))
-        project = Project.objects.get(pk=request.GET.get("project"))
-        responsible = (
-            CustomUser.objects.get(pk=request.GET.get("responsible"))
-            if request.GET.get("responsible") != "0"
-            else None
-        )
-        if user.is_superuser:
-            project.responsible = responsible
-            project.save()
-        return JsonResponse({"code": 200})
+    user = CustomUser.objects.get(pk=request.GET.get("user"))
+    project = Project.objects.get(pk=request.GET.get("project"))
+    responsible = (
+        CustomUser.objects.get(pk=request.GET.get("responsible"))
+        if request.GET.get("responsible") != "0"
+        else None
+    )
+    if user.is_superuser:
+        project.responsible = responsible
+        project.save()
+    return JsonResponse({"code": 200})
 
 
 def add_umnik(request, pk):
@@ -386,21 +384,20 @@ class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
 
 
 def change_niokr_criteria(request):
-    if request.is_ajax():
-        field = request.GET.get("field")
-        user = CustomUser.objects.get(pk=request.GET.get("user"))
-        if user.is_expert:
-            niokr_criteria = NiokrCriteria.objects.get(
-                app=request.GET.get("niokr_projects"), expert=user
-            )
-            niokr_criteria.__dict__[field] = not niokr_criteria.__dict__[field]
-            niokr_criteria.save(update_fields=[field])
-            niokr_project = NiokrProject.objects.get(
-                pk=request.GET.get("niokr_projects")
-            )
-            return JsonResponse(
-                {"count": niokr_project.__dict__[field], "rating": niokr_project.rating}
-            )
+    field = request.GET.get("field")
+    user = CustomUser.objects.get(pk=request.GET.get("user"))
+    if user.is_expert:
+        niokr_criteria = NiokrCriteria.objects.get(
+            app=request.GET.get("niokr_projects"), expert=user
+        )
+        niokr_criteria.__dict__[field] = not niokr_criteria.__dict__[field]
+        niokr_criteria.save(update_fields=[field])
+        niokr_project = NiokrProject.objects.get(
+            pk=request.GET.get("niokr_projects")
+        )
+        return JsonResponse(
+            {"count": niokr_project.__dict__[field], "rating": niokr_project.rating}
+        )
 
 
 class NiokrProjectsDatesView(APIView):

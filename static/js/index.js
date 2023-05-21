@@ -91,25 +91,10 @@ function getQuery(date = null) {
     $(".pagination.justify-content-center").remove()
 }
 
-$("#name").keyup(function () {
+$("#submit").click(function (event) {
+  event.preventDefault()
   getQuery();
-});
-
-$("#user").change(function () {
-  getQuery();
-});
-
-$("#responsible").change(function () {
-  getQuery();
-});
-
-$("#tag").change(function () {
-  getQuery();
-});
-
-$("#rating").change(function () {
-  getQuery();
-});
+})
 
 $(document).ready(async function () {
   const urlP = "/api/project-dates";

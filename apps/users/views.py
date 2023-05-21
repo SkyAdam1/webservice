@@ -130,9 +130,8 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 
 def create_code(request):
-    if request.is_ajax():
-        code = "".join(choices(ascii_letters + digits, k=randint(50, 99)))
-        InviteCode.objects.create(code=code).save()
-        return JsonResponse(
-            {"link": f"31.173.210.219/registration?code={code}"}
-        )
+    code = "".join(choices(ascii_letters + digits, k=randint(50, 99)))
+    InviteCode.objects.create(code=code).save()
+    return JsonResponse(
+        {"link": f"ideabase.ru/registration?code={code}"}
+    )

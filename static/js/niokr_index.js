@@ -86,17 +86,10 @@ function getQuery(date = null) {
     $(".pagination.justify-content-center").remove()
 }
 
-$("#theme").keyup(function () {
+$("#submit").click(function (event) {
+  event.preventDefault()
   getQuery();
-});
-
-$("#user").change(function () {
-  getQuery();
-});
-
-$("#rating").change(function () {
-  getQuery();
-});
+})
 
 $(document).ready(async function () {
   const urlP = "/api/niokr_project-dates";
