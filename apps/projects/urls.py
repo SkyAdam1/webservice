@@ -23,6 +23,7 @@ from .views import (
     UserNiokrProjectsOutputView,
     UserProjectsOutputView,
     UmnikProjectsOutputView,
+    USSProjectsOutputView,
     NIOKRViewSet,
     NIOKRCriteriaViewSet,
     ProjectsExcelDownload,
@@ -31,6 +32,8 @@ from .views import (
     change_niokr_criteria,
     add_umnik,
     delete_umnik,
+    add_uss,
+    delete_uss,
 )
 
 router = DefaultRouter()
@@ -72,6 +75,11 @@ urlpatterns = [
         "my_umnik/",
         UmnikProjectsOutputView.as_view(),
         name="umnik_projects_list_url",
+    ),
+    path(
+        "my_uss/",
+        USSProjectsOutputView.as_view(),
+        name="uss_projects_list_url",
     ),
     path(
         "project/<int:pk>/",
@@ -130,6 +138,8 @@ urlpatterns = [
     path("change_niokr_criteria/", change_niokr_criteria, name="change_niokr_criteria"),
     path("add_umnik/<int:pk>/", add_umnik, name="add_umnik"),
     path("delete_umnik/<int:pk>/", delete_umnik, name="delete_umnik"),
+    path("add_uss/<int:pk>/", add_uss, name="add_uss"),
+    path("delete_uss/<int:pk>/", delete_uss, name="delete_uss"),
     path("api/niokr_project-dates/", NiokrProjectsDatesView.as_view()),
     re_path("^", include(router.urls)),
 ]

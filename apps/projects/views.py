@@ -110,6 +110,22 @@ class UmnikProjectsOutputView(LoginRequiredMixin, ListView):
         return Project.objects.filter(umnik=self.request.user)
 
 
+class USSProjectsOutputView(LoginRequiredMixin, ListView):
+    """cписок своих проектов в УСС"""
+
+    model = Project
+    template_name = "projects/projects_output.html"
+    context_object_name = "projects"
+    paginate_by = 15
+
+    def get_context_data(self, **kwargs):
+        kwargs["users"] = CustomUser.objects.filter()
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return Project.objects.filter(uss=self.request.user)
+
+
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     """создание проекта"""
 
@@ -245,9 +261,17 @@ def add_responsible(request):
 
 
 def add_umnik(request, pk):
-
     project = get_object_or_404(Project, pk=pk)
     project.umnik = request.user
+    project.save()
+    return HttpResponseRedirect(
+        reverse_lazy("project_detail_url", kwargs={"pk": project.pk})
+    )
+
+
+def add_uss(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    project.uss = request.user
     project.save()
     return HttpResponseRedirect(
         reverse_lazy("project_detail_url", kwargs={"pk": project.pk})
@@ -257,6 +281,15 @@ def add_umnik(request, pk):
 def delete_umnik(request, pk):
     project = get_object_or_404(Project, pk=pk)
     project.umnik = None
+    project.save()
+    return HttpResponseRedirect(
+        reverse_lazy("project_detail_url", kwargs={"pk": project.pk})
+    )
+
+
+def delete_uss(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    project.uss = None
     project.save()
     return HttpResponseRedirect(
         reverse_lazy("project_detail_url", kwargs={"pk": project.pk})

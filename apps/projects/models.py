@@ -55,6 +55,17 @@ class Project(models.Model):
         blank=True,
         null=True,
     )
+
+    uss = ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=CASCADE,
+        related_name="uss",
+        verbose_name=_("Участие в УСС"),
+        db_index=True,
+        blank=True,
+        null=True,
+    )
+
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
     date = DateField(_("Дата создания"), auto_now_add=True, null=True)
     hex_color = CharField(_("Hex цвет"), max_length=20, blank=True, default="")
