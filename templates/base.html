@@ -36,6 +36,13 @@
       <a class="menu-btn"><i class="fa fa-bars" style="vertical-align: middle;"></i></a>
       <nav class="menu-list">
         <a id="main-title" href="#" style="font-size:200%;margin-top: -5em;padding-bottom: 4em;">ВИТРИНА TRL</a>
+        <a href="{% url 'equipments_list_url' %}">
+          <i class="fa fa-cubes" aria-hidden="true"></i> Оборудование
+        </a>
+        <a href="{% url 'equipment_create_url' %}">
+          <i class="fa fa-plus" aria-hidden="true"></i> Добавить ОС
+        </a>
+        <hr style="margin: 0%;">
         <a href="{% url 'projects_list_url' %}">
           <i class="fa fa-globe" aria-hidden="true"></i> Все проекты ({{ projects_count }})
         </a>

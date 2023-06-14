@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from django.shortcuts import redirect
+from django.shortcuts import render
 
 import xlwt
 import requests
@@ -22,7 +22,7 @@ from django.http import HttpResponse
 from apps.users.models import CustomUser
 
 from . import forms
-from .models import Criteria, NiokrCriteria, NiokrProject, NiokrUser, Project
+from .models import Criteria, NiokrCriteria, NiokrProject, NiokrUser, Project, Equipment
 from .serializer import (
     CriteriaSerializer,
     NiokrCriteriaSerializer,
@@ -124,6 +124,54 @@ class USSProjectsOutputView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Project.objects.filter(uss=self.request.user)
+
+
+class EquipmentsOutputView(LoginRequiredMixin, ListView):
+    """cписок всех оборудований"""
+
+    model = Equipment
+    template_name = "equipments/equipments_output.html"
+    context_object_name = "equipments"
+    paginate_by = 15
+
+    def get_queryset(self):
+        name = self.request.GET.get('name')
+        characteristic = self.request.GET.get('characteristic')
+        owner = self.request.GET.get('owner')
+        contact = self.request.GET.get('contact')
+
+        queryset = Equipment.objects.all()
+
+        if name:
+            queryset = queryset.filter(name=name)
+        
+        if characteristic:
+            queryset = queryset.filter(characteristic=characteristic)
+
+        if owner:
+            queryset = queryset.filter(owner=owner)
+
+        if contact:
+            queryset = queryset.filter(contact=contact)
+
+        return queryset
+
+
+class EquipmentCreateView(LoginRequiredMixin, CreateView):
+    """создание оборудования"""
+
+    model = Equipment
+    template_name = "equipments/equipment_create.html"
+    form_class = forms.EquipmentCreateForm
+    success_url = reverse_lazy("equipments_list_url")
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        photo = self.request.POST.get("image", None)
+        if photo is not None and isinstance(photo, str):
+            self.object.image = photo
+        self.object.save()
+        return super().form_valid(form)
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):

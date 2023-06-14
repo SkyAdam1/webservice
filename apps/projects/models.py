@@ -107,6 +107,24 @@ class Project(models.Model):
         return reverse("project_update_url", kwargs={"pk": self.pk})
 
 
+class Equipment(models.Model):
+    name = CharField(_("Наименование"), max_length=256)
+    characteristic = TextField(_("Характеристика"))
+    owner = CharField(_("Владелец"), max_length=256)
+    contact = CharField(_("Контакт"), max_length=256)
+    image = models.ImageField(
+        _("Фото"), upload_to="equipment_photos/", null=True, blank=True
+    )
+
+    created_at = DateTimeField(_("Дата создания"), auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.name
+
+
 class Criteria(models.Model):
     app = ForeignKey(Project, on_delete=CASCADE, db_index=True)
     expert = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)

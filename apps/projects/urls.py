@@ -1,4 +1,6 @@
 from django.conf.urls import include
+from django.conf.urls.static import static
+from django.conf import settings
 from django.urls import path
 from django.urls.conf import re_path
 from rest_framework.routers import DefaultRouter
@@ -20,6 +22,8 @@ from .views import (
     ProjectsOutputView,
     ProjectUpdateView,
     ProjectViewSet,
+    EquipmentsOutputView,
+    EquipmentCreateView,
     UserNiokrProjectsOutputView,
     UserProjectsOutputView,
     UmnikProjectsOutputView,
@@ -66,6 +70,10 @@ urlpatterns = [
         name="download_excel_url",
     ),
     path("projects/create/", ProjectCreateView.as_view(), name="project_create_url"),
+
+    path("equipments/", EquipmentsOutputView.as_view(), name="equipments_list_url"),
+    path("equipments/create/", EquipmentCreateView.as_view(), name="equipment_create_url"),
+
     path(
         "my_projects/",
         UserProjectsOutputView.as_view(),
@@ -143,3 +151,5 @@ urlpatterns = [
     path("api/niokr_project-dates/", NiokrProjectsDatesView.as_view()),
     re_path("^", include(router.urls)),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,76 @@
+{% extends 'base_projects.html' %}
+{% load static %}
+{% load customtags %}
+
+{% block title %}
+  Все оборудование
+{% endblock title %}
+
+
+{% block content %}
+  <form class="filter pt-5" action="{% url 'equipments_list_url' %}" method="get">
+
+    <div class="input-group mb-1">
+        <div class="input-group mb-1">
+            <input type="text" id="name" name="name" class="form-control" placeholder="Наименование оборудования" aria-label="Наименование оборудования">
+        </div>
+        <div class="input-group mb-1">
+            <input type="text" id="characteristic" name="characteristic" class="form-control" placeholder="Характеристика" aria-label="Характеристика">
+        </div>
+    </div>
+    <div class="input-group mb-1">
+        <div class="input-group mb-1">
+            <input type="text" id="owner" name="owner" class="form-control" placeholder="Владелец" aria-label="Владелец">
+        </div>
+        <div class="input-group mb-1">
+            <input type="text" id="contact" name="contact" class="form-control" placeholder="Контакт" aria-label="Контакт">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" id="submit">Поиск</button>
+  </form>
+
+  <table class="table table-striped table-primary mt-5">
+        <thead>
+            <tr>
+                <!-- <th scope="col">#</th> -->
+                <th scope="col">Наименование</th>
+                <th scope="col">Характеристики</th>
+                <th scope="col">Владелец</th>
+                <th scope="col">Контакт</th>
+                <th scope="col">Фото</th>
+            </tr>
+        </thead>
+    <tbody>
+        {% for equipment in equipments %}
+            <tr>
+                <!-- <th scope="row">1</th> -->
+                <td>{{ equipment.name }}</td>
+                <td>{{ equipment.characteristic }}</td>
+                <td>{{ equipment.owner }}</td>
+                <td>{{ equipment.contact }}</td>
+                <td><a href="{{ equipment.image|get_image }}" target="_blank" rel="noopener noreferrer">Просмотреть фото</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+    <nav>
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">Первая страница</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+        {% endif %}
+        <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% endblock content %}
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="{% static 'js/index_equipment.js' %}"></script>
+{% endblock js %}

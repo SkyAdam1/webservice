@@ -2,13 +2,24 @@ from django import forms
 from django.forms import CheckboxSelectMultiple
 
 
-from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria
+from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria, Equipment
 
 
 class ProjectCreateForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ("name", "site", "description", "tag", "note", "cover")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs["class"] = "form-control"
+
+
+class EquipmentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = ("name", "characteristic", "owner", "contact", "image")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
