@@ -49,7 +49,7 @@
                 <td>{{ equipment.characteristic }}</td>
                 <td>{{ equipment.owner }}</td>
                 <td>{{ equipment.contact }}</td>
-                <td><a href="{{ equipment.image|get_image }}" target="_blank" rel="noopener noreferrer">Просмотреть фото</a></td>
+                <td><a href="{{ equipment.image|get_image }}" data-lightbox="image-1" data-title=""><img class="img-fluid" src="{{ equipment.image|get_image }}" width="50px" ></img></a></td>
             </tr>
         {% endfor %}
     </tbody>
@@ -72,5 +72,6 @@
 {% endblock content %}
 {% block js %}
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-  <script src="{% static 'js/index_equipment.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
+  <script src="{% static 'js/lightbox.min.js' %}"></script>
 {% endblock js %}
